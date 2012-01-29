@@ -7,6 +7,27 @@
         <script type="text/javascript"src="jquery.js"></script>
         <script type="text/javascript"charset="utf-8">
             $(document).ready(function() {
+                    $.getJSON('listall', function(data) {
+                                var lists = $('#lists');
+                                if (data && data.length > 0) {
+                                    for (var i = 0; i <data.length; ++i) {
+                                        var b = data[i];
+                                        var div = $('<divclass="blog"></div>');
+                                        if (b.title) {
+                                            var h = $('<h3/>');
+                                            h.html(b.title);
+                                            div.append(h);
+                                        }
+                                        if (b.content) {
+                                            var c = $('<div/>');
+                                            c.html(b.content);
+                                            div.append(c);
+                                        }
+                                        div.appendTo(lists);
+                                    }
+                                }
+                            });
+
                     $('#submitBtn').click(function() {
                         var title = $('#title').val();
                         var content = $('#content').val();

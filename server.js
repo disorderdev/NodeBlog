@@ -29,7 +29,23 @@ var server = http.createServer(function(req, res) {
                 res.write(data, 'binary');
                 res.end();
             });
+        } else if (pathname == '/listall') {
+            fs.readdir('blogs', function (err, files) {
+                if (err) throw err;
+                var lists = new Array();
+                for (var i = 0; i < files.length; ++i) {
+                    var file = files[i];
+                    var data = {};
+                    data.title = file;
+                    data.content = fs.readFileSync('blogs/' + file, 'utf8');
+                    lists.push(data);
+                }
+                res.writeHead(200, {'Content-Type':'application/json'});
+                res.write(JSON.stringify(lists), 'utf8');
+                res.end();
+            });
         }
+
     }else if (method == 'POST') {
         if (pathname = '/new') {
             req.on('data', function(data) {
